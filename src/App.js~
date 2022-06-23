@@ -1,0 +1,31 @@
+import './App.css';
+import {useState} from "react"
+import Header from "./components/Header"
+import Lists from "./components/Lists"
+import AddItem from "./components/AddItem"
+
+function App() {
+	const [showAddList, setShowAddList] = useState(false)
+	const [lists, setLists] = useState([])
+	function deleteItem(id){
+		setLists(
+			lists.filter((item) => item.id !== id)	
+		)
+	}
+	function addList(list){
+		const id = Math.floor(Math.random() * 100000) + 1	
+		const newList = {id, ...list}	
+		setLists([...lists, newList])
+	}
+	
+
+  return (
+    <div className="container rounded min-h-[200px] border mt-5 border-1 w-4/5 m-auto p-4 ">
+		<Header openAdd={() => setShowAddList(!showAddList)} showAdd={showAddList}/>
+		{showAddList && <AddItem onAdd={addList}/>}
+		{lists.length > 0 ? (<Lists lists={lists} onDelete={deleteItem} />):(<p className="mt-1 text-sm">No items to show</p>)}
+    </div>
+  );
+}
+
+export default App;
